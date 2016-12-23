@@ -1,0 +1,48 @@
+---
+  server1:
+    ipa_kernel_url: http://192.168.10.2:8080/ansible_ubuntu.vmlinuz
+    ipa_ramdisk_url: http://192.168.10.2:8080/ansible_ubuntu.initramfs
+    uuid: 00000000-0000-0000-0000-000000000001
+    driver_info:
+      power:
+        ipmi_username: engineer
+        ipmi_address: 5.43.227.44
+        ipmi_password: 6gX89F9xVDwmfMam
+        ansible_deploy_playbook: deploy_custom.yaml
+    nics:
+      -
+        mac: 0c:c4:7a:a8:a7:de
+    driver: pxe_ipmitool_ansible
+    ipv4_address: 192.168.10.8
+    properties:
+      cpu_arch: x86_64
+      ram: 16000
+      disk_size: 60
+      cpus: 8
+    name: server1
+    instance_info:
+      image_source: http://192.168.10.2:8080/user_image.qcow2
+
+  server2:
+    ipa_kernel_url: http://192.168.10.2:8080/ansible_ubuntu.vmlinuz
+    ipa_ramdisk_url: http://192.168.10.2:8080/ansible_ubuntu.initramfs
+    uuid: 00000000-0000-0000-0000-000000000002
+    driver_info:
+      power:
+        ipmi_username: engineer
+        ipmi_address: 5.43.227.40
+        ipmi_password: 6gX89F9xVDwmfMam
+        ansible_deploy_playbook: deploy_custom.yaml
+    nics:
+      -
+        mac: 0c:c4:7a:6c:9b:0a
+    driver: pxe_ipmitool_ansible
+    ipv4_address: 192.168.10.9
+    properties:
+      cpu_arch: x86_64
+      ram: 16000
+      disk_size: 60
+      cpus: 8
+    name: server2
+    instance_info:
+      image_source: http://192.168.10.2:8080/user_image.qcow2
