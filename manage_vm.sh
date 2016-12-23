@@ -37,7 +37,6 @@ sshpass -p r00tme ssh ${ssh_opts} root@${VM_IP} "echo $ENV_NAME > /etc/hostname;
 waitForSSH ${VM_IP}
 
 #TODO clone empty VM and generate yaml for it(for case w/o hardware servers) and operations with downstream bifrost
-cd playbooks
 cp -r /tmp/biftost_playbooks/custom_inventory ~jenkins/workspace/bifrost_remote/playbooks/
 cd ~jenkins/workspace/bifrost_remote/playbooks/
 sed -i "s/10.20.0/192.168.10/g" install-target.yaml
