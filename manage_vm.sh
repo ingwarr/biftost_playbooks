@@ -45,4 +45,4 @@ ${VM_IP} ansible_connection=ssh ansible_user=ingwarr ansible_ssh_pass=ytpfvfq! a
 env
 pwd
 whoami
-ansible-playbook -vvvv -i custom_inventory/target install-target.yaml
+ansible-playbook -vvvv -s -i custom_inventory/target install-target.yaml
