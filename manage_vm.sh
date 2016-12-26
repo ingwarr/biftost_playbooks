@@ -42,4 +42,7 @@ cd ~jenkins/workspace/bifrost_remote/playbooks/
 sed -i "s/10.20.0/192.168.10/g" install-target.yaml
 echo "[target]
 ${VM_IP} ansible_connection=ssh ansible_user=ingwarr ansible_ssh_pass=ytpfvfq! ansible_become_pass=ingwarr" > ./custom_inventory/target
+env
+pwd
+whoami
 ansible-playbook -vvvv -i custom_inventory/target install-target.yaml
