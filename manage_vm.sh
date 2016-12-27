@@ -36,7 +36,7 @@ VM_MAC=`virsh domiflist ${ENV_NAME} | grep devstack-net | awk '{print $5}'`
 virsh start ${ENV_NAME}
 sleep 120
 VM_IP=`/usr/sbin/arp -an  |grep "${VM_MAC}" | grep -o -P '(?<=\? \().*(?=\) .*)'`
-sshpass -p r00tme ssh ${ssh_opts} root@${VM_IP} "echo $ENV_NAME > /etc/hostname; sed -i "s/ub16-standard/$ENV_NAME/g" /etc/hosts; hostname $ENV_NAME; useradd -m -G sudo --password ${VM_PASS} --shell ${VM_USER_SHELL} ${VM_USER};  (sleep 1; reboot) &"
+sshpass -p r00tme ssh ${ssh_opts} root@${VM_IP} "echo $ENV_NAME > /etc/hostname; sed -i "s/ub16-standard/$ENV_NAME/g" /etc/hosts; hostname $ENV_NAME; useradd -m -G sudo --shell ${VM_USER_SHELL} ${VM_USER}; echo -e "${VM_PASS}\n${VM_PASS}\n" | passwd $user  (sleep 1; reboot) &"
 waitForSSH ${VM_IP}
 
 #TODO clone empty VM and generate yaml for it(for case w/o hardware servers) and operations with downstream bifrost
