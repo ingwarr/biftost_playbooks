@@ -20,6 +20,9 @@ function waitForSSH {
 
 export ANSIBLE_HOST_KEY_CHECKING=False
 ssh_opts="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -t -t"
+VM_USER="stack"
+VM_PASS=`pwgen -s 12 1`
+VM_USER_SHELL="/bin/bash"
 
 if [[ "$DISTRO_RELEASE" == "ubuntu-xenial" ]]; then
     SRC_VM='generic_bifrost '
@@ -33,7 +36,7 @@ VM_MAC=`virsh domiflist ${ENV_NAME} | grep devstack-net | awk '{print $5}'`
 virsh start ${ENV_NAME}
 sleep 120
 VM_IP=`/usr/sbin/arp -an  |grep "${VM_MAC}" | grep -o -P '(?<=\? \().*(?=\) .*)'`
-sshpass -p r00tme ssh ${ssh_opts} root@${VM_IP} "echo $ENV_NAME > /etc/hostname; sed -i "s/ub16-standard/$ENV_NAME/g" /etc/hosts; hostname $ENV_NAME; (sleep 1; reboot) &"
+sshpass -p r00tme ssh ${ssh_opts} root@${VM_IP} "echo $ENV_NAME > /etc/hostname; sed -i "s/ub16-standard/$ENV_NAME/g" /etc/hosts; hostname $ENV_NAME; useradd -m -G sudo --password ${VM_PASS} --shell ${VM_USER_SHELL} ${VM_USER};  (sleep 1; reboot) &"
 waitForSSH ${VM_IP}
 
 #TODO clone empty VM and generate yaml for it(for case w/o hardware servers) and operations with downstream bifrost
@@ -41,8 +44,8 @@ cp -r /tmp/biftost_playbooks/custom_inventory ~jenkins/workspace/bifrost_remote/
 cd ~jenkins/workspace/bifrost_remote/playbooks/
 sed -i "s/10.20.0/192.168.10/g" install-target.yaml
 echo "[target]
-${VM_IP} ansible_connection=ssh ansible_user=ingwarr ansible_ssh_pass=ytpfvfq! ansible_become_pass=ingwarr" > ./custom_inventory/target
-env
-pwd
-whoami
+${VM_IP} ansible_connection=ssh ansible_user=${VM_USER} ansible_ssh_pass=${VM_PASS} ansible_become_pass=${VM_USER}" > ./custom_inventory/target
+#env
+#pwd
+#whoami
 ansible-playbook -vvvv -s -i custom_inventory/target install-target.yaml
