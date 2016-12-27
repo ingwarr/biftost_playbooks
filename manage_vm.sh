@@ -44,9 +44,6 @@ waitForSSH ${VM_IP}
 echo -e "---\n" > /tmp/baremetal.yml
 if [ ${hw_enabled} == "false" ]
     then
-        qemu-img create -f qcow2 /var/lib/libvirt/images/ps_bm.qcow2 15G
-        cp /tmp/biftost_playbooks/ps_bm.xml/etc/libvirt/qemu/ps_bm.xml
-        virsh define /etc/libvirt/qemu/ps_bm.xml
         for ((i=1; i<=${PS_BM_NUM}; i++))
             do
                 PS_BM_NAME=`virt-clone -o ps_bm --auto-clone|awk '/Clone/ {print $2}'|awk -F"'" '{print $2}'`
