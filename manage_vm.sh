@@ -48,6 +48,7 @@ if [ ${hw_enabled} == "false" ]
             do
                 PS_BM_NAME=`virt-clone -o ps_bm --auto-clone|awk '/Clone/ {print $2}'|awk -F"'" '{print $2}'`
 		PS_BM_MAC=`virsh domiflist ${PS_BM_NAME} | grep ${BM_NET_NAME} | awk '{print $5}'`
+		virsh start ${PS_BM_NAME}
 		sleep 3
 		let "lastnum = i + 50"
 		echo "  ${PS_BM_NAME}:
@@ -55,7 +56,7 @@ if [ ${hw_enabled} == "false" ]
     driver_info:
       power:
         ssh_port: 22
-        ssh_username: ipukha
+        ssh_username: jenkins
         ssh_virt_type: virsh
         ssh_address: 192.168.10.1
         ssh_key_filename: /home/ironic/.ssh/id_rsa
