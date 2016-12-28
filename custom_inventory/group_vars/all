@@ -30,9 +30,9 @@ ipv4_gateway: 192.168.10.2
 dhcp_pool_start: 192.168.10.10
 dhcp_pool_end: 192.168.10.100
 dhcp_static_mask: 255.255.255.0
-ssh_public_key_path: /home/ashestakov/ansible_deploy.rsa.pub
+ssh_public_key_path: /home/jenkins/ansible_deploy.rsa.pub
 remote_syslog_server: 192.168.10.1
-ssh_private_key_path: /home/ashestakov/ansible_deploy.rsa
+ssh_private_key_path: /home/jenkins/ansible_deploy.rsa
 
 staging_drivers_source_install: true
 staging_drivers_git_url: https://github.com/andreyshestakov/ironic-staging-drivers
