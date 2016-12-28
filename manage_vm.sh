@@ -44,7 +44,7 @@ waitForSSH ${VM_IP}
 echo -e "---\n" > /tmp/baremetal.yml
 if [ ${hw_enabled} == "false" ]
     then
-        for ((i=1; i<=${PS_BM_NUM}; i++))
+        for i in `seq ${PS_BM_NUM}`
             do
                 PS_BM_NAME=`virt-clone -o ps_bm --auto-clone|awk '/Clone/ {print $2}'|awk -F"'" '{print $2}'`
 		PS_BM_MAC=`virsh domiflist ${PS_BM_NAME} | grep ${BM_NET_NAME} | awk '{print $5}'`
