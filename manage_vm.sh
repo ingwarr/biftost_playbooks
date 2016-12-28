@@ -50,7 +50,7 @@ if [ ${hw_enabled} == "false" ]
 		PS_BM_MAC=`virsh domiflist ${PS_BM_NAME} | grep ${BM_NET_NAME} | awk '{print $5}'`
 		sleep 3
 		let "lastnum = i + 50"
-		echo "  ${PS_BM_NAME:
+		echo "  ${PS_BM_NAME}:
     uuid: 00000000-0000-0000-0000-00000000000${i}
     driver_info:
       power:
@@ -64,7 +64,7 @@ if [ ${hw_enabled} == "false" ]
         mac: ${PS_BM_MAC}
     driver: pxe_ssh_ansible
     ipv4_address: 192.168.10.${lastnum}
-    name: {PS_BM_NAME}
+    name: ${PS_BM_NAME}
 " >> /tmp/baremetal.yml
             done
     else
