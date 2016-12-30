@@ -77,7 +77,7 @@ cd ~jenkins/workspace/bifrost_remote/playbooks/
 sed -i "s/10.20.0/192.168.10/g" install-target.yaml
 echo "[target]
 ${VM_IP} ansible_connection=ssh ansible_user=${VM_USER} ansible_ssh_pass=${VM_PASS} ansible_become_pass=${VM_USER}" > ./custom_inventory/target
-ansible-playbook -vvvv -s -i custom_inventory/target install-target.yam
+ansible-playbook -vvvv -s -i custom_inventory/target install-target.yaml
 export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.yml
 ansible-playbook -vvvv -i custom_inventory/ enroll-dynamic.yaml
 ansible-playbook -vvvv -i custom_inventory/ deploy-dynamic.yaml
