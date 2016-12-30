@@ -49,9 +49,10 @@ if [ ${hw_enabled} == "false" ]
                 PS_BM_NAME=`virt-clone -o ps_bm --auto-clone|awk '/Clone/ {print $2}'|awk -F"'" '{print $2}'`
 		PS_BM_MAC=`virsh domiflist ${PS_BM_NAME} | grep ${BM_NET_NAME} | awk '{print $5}'`
 		virsh start ${PS_BM_NAME}
+		PS_BM_NAME_IR=`echo ${PS_BM_NAME}|sed -e "s/_\|-//g"`
 		sleep 3
 		let "lastnum = i + 50"
-		echo "  ${PS_BM_NAME}:
+		echo "  ${PS_BM_NAME_IR}:
     uuid: 00000000-0000-0000-0000-00000000000${i}
     driver_info:
       power:
@@ -65,7 +66,7 @@ if [ ${hw_enabled} == "false" ]
         mac: ${PS_BM_MAC}
     driver: pxe_ssh_ansible
     ipv4_address: 192.168.10.${lastnum}
-    name: ${PS_BM_NAME}
+    name: ${PS_BM_NAME_IR}
 " >> /tmp/baremetal.yml
             done
     else
@@ -76,4 +77,7 @@ cd ~jenkins/workspace/bifrost_remote/playbooks/
 sed -i "s/10.20.0/192.168.10/g" install-target.yaml
 echo "[target]
 ${VM_IP} ansible_connection=ssh ansible_user=${VM_USER} ansible_ssh_pass=${VM_PASS} ansible_become_pass=${VM_USER}" > ./custom_inventory/target
-ansible-playbook -vvvv -s -i custom_inventory/target install-target.yaml
+ansible-playbook -vvvv -s -i custom_inventory/target install-target.yam
+export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.yml
+ansible-playbook -vvvv -i custom_inventory/ enroll-dynamic.yaml
+ansible-playbook -vvvv -i custom_inventory/ deploy-dynamic.yaml
