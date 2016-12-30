@@ -36,7 +36,7 @@ ssh_private_key_path: /home/jenkins/ansible_deploy_rsa
 
 staging_drivers_source_install: true
 staging_drivers_git_url: https://github.com/andreyshestakov/ironic-staging-drivers
-staging_drivers_git_branch: my_fixes
+staging_drivers_git_branch: works
 
 inspector_auth: "keystone"
 ironic_auth_strategy: "keystone"
