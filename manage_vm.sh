@@ -1,5 +1,32 @@
 #!/bin/bash -ex
 
+function netCreate {
+    local net_name="$1"
+    local net_prefix="$2"
+    local choose_range=50
+    local net_start=10
+    empty_net=0
+    while [ ${empty_net} -eq 0 ]
+        do
+	    echo "${net_prefix}.${net_start}"
+            e_nets=`ifconfig|grep "${net_prefix}.${net_start}"|wc -l`
+            if [ ${e_nets} -ge 1 ]
+                then
+                    let "net_start += 1"
+                else
+                    empty_net=1
+            fi
+        done
+    echo "<network>
+  <name>${net_name}</name>
+  <bridge name=\"${net_name}\"/>
+  <forward/>
+  <ip address=\"${net_prefix}.${net_start}.1\" netmask=\"255.255.255.0\">
+  </ip>
+</network>" > /tmp/bmnet.xml
+    virsh net-create /tmp/bmnet.xml
+}
+
 function waitForSSH {
   local server_ip="$1"
   local BOOT_TIMEOUT=180
